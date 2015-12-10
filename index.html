@@ -29,12 +29,12 @@ var reset = function() {
 
 var adjustScore = function(text) {
   var scored = false;
-  if (/(sky|score) blue/i.test(text)) {
+  if (/(sky|score|school|call) (blue|glue)/i.test(text)) {
     blue.innerHTML = parseInt(blue.innerHTML) + 1;
     scored = true;
   }
 
-  if (/((sky|score) red|skyrim)/i.test(text)) {
+  if (/((sky|score|school|call) (red|rent)|pirate|skyrim)/i.test(text)) {
     red.innerHTML = parseInt(red.innerHTML) + 1;
     scored = true;
   }
@@ -52,6 +52,11 @@ element.addEventListener('result', function(e) {
     speech.innerHTML = newText;
     adjustScore(newText);
     all.innerHTML = e.detail.result;
+});
+
+element.addEventListener('error', function(e) {
+    console.log('recording error occurred')
+    element.start();
 });
 
 
