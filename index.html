@@ -8,6 +8,7 @@
     <h1>Table tennis scoring apps</h1>
     <p id="speech" />
     <p id="all-speech" style="display:none;"/>
+    <span id="blue"><span id="red">
     <voice-player autoplay text="Welcome to the tt scoring app"></voice-player>
     <voice-recognition id="recognition-element"></voice-recognition>
 
@@ -15,13 +16,37 @@
 var element = document.querySelector('#recognition-element');
 var speech = document.querySelector('#speech');
 var all = document.querySelector('#all-speech');
+var blue = document.querySelector('#blue');
+var red = document.querySelector('#red')
 element.start();
+
+var reset = function() {
+  blue.innerHTML = '0';
+  red.innerHTML = '0';
+}
+
+var adjustScore = function(text) {
+  if /(sky|score) blue/i.test(text) {
+    blue.innerHTML = parseInt(blue.innerHTML) + 1;
+  }
+
+  if /(sky|score) red/i.test(text) {
+    blue.innerHTML = parseInt(blue.innerHTML) + 1;
+  }
+}
 
 element.addEventListener('result', function(e) {
     var textContent = e.detail.result;
-    speech.innerHTML = textContent.replace(all.innerHTML + ' ','');
+    var newText = textContent.replace(all.innerHTML + ' ','');
+    speech.innerHTML = newText;
+    adjustScore(newText);
     all.innerHTML = e.detail.result;
 });
+
+
+reset();
+adjustScore('score blue');
+adjustScore('score red');
 </script>
   </body>
 </html>
