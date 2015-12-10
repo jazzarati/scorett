@@ -26,11 +26,11 @@ var reset = function() {
 }
 
 var adjustScore = function(text) {
-  if /(sky|score) blue/i.test(text) {
+  if (/(sky|score) blue/i.test(text)) {
     blue.innerHTML = parseInt(blue.innerHTML) + 1;
   }
 
-  if /(sky|score) red/i.test(text) {
+  if (/(sky|score) red/i.test(text)) {
     blue.innerHTML = parseInt(blue.innerHTML) + 1;
   }
 }
