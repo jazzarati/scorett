@@ -13,15 +13,15 @@
     </style>
   </head>
   <body>
+    <div style="text-align: center;"><a href="#" onClick=reset()>New Game</a></div>
     <span style="width: 50%; text-align: center; display: inline-block;">
       <a href="#" onclick=add('blue')><p id="blue" style="color: blue; font-size: 70vh;"></p></a><br />
-      <a href="#" onclick=minus('blue')>-</a>
+      <a href="#" onclick=minus('blue') style="font-weight: bold;">-</a>
     </span>
     <span style="width: 49%; text-align: center; display: inline-block;">
       <a href="#" onclick=add('red')><p id="red" style="color: red; font-size: 70vh;"></p></a><br />
-      <a href="#" onclick=minus('red')>-</a>
+      <a href="#" onclick=minus('red') style="font-weight: bold;">-</a>
     </span>
-    <div style="text-align: center;"><a href="#" onClick=reset()>New Game</a></div>
     <voice-player id="speaker" autoplay text="Welcome to the tt scoring app"></voice-player>
     <voice-recognition id="recognition-element"></voice-recognition>
     <p id="speech" ></p>
@@ -61,7 +61,7 @@ var minus = function(color) {
   ele.innerHTML = parseInt(ele.innerHTML) - 1;
 }
 
-var checkForWinner = function() {
+var checkScores = function() {
   var blueScore = parseInt(blue.innerHTML);
   var redScore = parseInt(red.innerHTML);
   var minimumWinScore = 11;
@@ -70,9 +70,11 @@ var checkForWinner = function() {
   } else if(redScore >= minimumWinScore && redScore - 2 >= blueScore) {
     say('Red wins. ' + redScore + ' to ' + blueScore);
   } else if(blueScore >= minimumWinScore - 1 && blueScore - 1 >= redScore) {
-    say('Match point');
+    say('Blue ' + blue.innerHTML + '. Red ' + red.innerHTML + '. Match point');
   } else if(redScore >= minimumWinScore - 1 && redScore - 1 >= blueScore) {
-    say('Match point');
+    say('Blue ' + blue.innerHTML + '. Red ' + red.innerHTML + '. Match point');
+  } else {
+    say('Blue ' + blue.innerHTML + '. Red ' + red.innerHTML);
   }
 }
 
@@ -89,8 +91,7 @@ var adjustScore = function(text) {
   }
 
   if (scored || /(status|what.*score)/i.test(text)) {
-    say('Blue ' + blue.innerHTML + '. Red ' + red.innerHTML);
-    checkForWinner();
+    checkScores();
   }
 }
 
