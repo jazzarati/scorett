@@ -7,6 +7,9 @@
       p {
         margin: 0;
       }
+      a {
+        text-decoration: none;
+      }
     </style>
   </head>
   <body>
@@ -14,11 +17,11 @@
     <p id="speech" ></p>
     <p id="all-speech" style="display:none;"></p>
     <span style="width: 50%; text-align: center; display: inline-block;">
-      <p id="blue" style="color: blue; font-size: 70vh;"></p><br />
+      <a href="#" onclick=add('blue')><p id="blue" style="color: blue; font-size: 70vh;"></p></a><br />
       <a href="#" onclick=minus('blue')>-</a>
     </span>
     <span style="width: 49%; text-align: center; display: inline-block;">
-      <p id="red" style="color: red; font-size: 70vh;"></p><br />
+      <a href="#" onclick=add('red')><p id="red" style="color: red; font-size: 70vh;"></p></a><br />
       <a href="#" onclick=minus('red')>-</a>
     </span>
     <div style="text-align: center;"><a href="#" onClick=reset()>New Game</a></div>
@@ -39,6 +42,16 @@ var reset = function() {
   red.innerHTML = '0';
 }
 
+var add = function(color) {
+  var ele;
+  if (color == 'blue') {
+    ele = blue;
+  } else {
+    ele = red;
+  }
+  ele.innerHTML = parseInt(ele.innerHTML) + 1;
+}
+
 var minus = function(color) {
   var ele;
   if (color == 'blue') {
@@ -47,6 +60,21 @@ var minus = function(color) {
     ele = red;
   }
   ele.innerHTML = parseInt(ele.innerHTML) - 1;
+}
+
+var checkForWinner = function() {
+  var blueScore = parseInt(blue.innerHTML);
+  var redScore = parseInt(red.innerHTML);
+  var minimumWinScore = 11;
+  if(blueScore >= minimumWinScore && blueScore - 2 >= redScore) {
+    say('Blue wins. ' + blueScore + ' to ' + redScore);
+  } else if(redScore >= minimumWinScore && redScore - 2 >= blueScore) {
+    say('Red wins. ' + redScore + ' to ' + blueScore);
+  } else if(blueScore >= minimumWinScore - 1 && blueScore - 1 >= redScore) {
+    say('Match point');
+  } else if(redScore >= minimumWinScore - 1 && redScore - 1 >= blueScore) {
+    say('Match point');
+  }
 }
 
 var adjustScore = function(text) {
@@ -62,9 +90,15 @@ var adjustScore = function(text) {
   }
 
   if (scored || /(status|what.*score)/i.test(text)) {
-    speaker.setAttribute('text', 'Blue ' + blue.innerHTML + '. Red ' + red.innerHTML);
-    speaker.speak();
+    say('Blue ' + blue.innerHTML + '. Red ' + red.innerHTML);
   }
+
+  checkForWinner();
+}
+
+var say = function(text) {
+  speaker.setAttribute('text', text);
+  speaker.speak();
 }
 
 // Change to use interim text and have a timeout when updating scores
@@ -81,8 +115,7 @@ element.addEventListener('error', function(e) {
     element.abort();
     setTimeout(function() {
       element.start();
-      speaker.setAttribute('text', 'I need permission to continue');
-      speaker.speak();
+      say('I need permission to continue');
     },3000);
 });
 
@@ -91,8 +124,7 @@ element.addEventListener('end', function(e) {
     console.log('recording ended')
     setTimeout(function() {
       element.start();
-      speaker.setAttribute('text', 'I need permission to continue');
-      speaker.speak();
+      say('I need permission to continue');
     },1000);
 });
 
