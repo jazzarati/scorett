@@ -34,6 +34,7 @@
             ready: function() {
                 this.recognition.continuous = this.continuous;
                 this.recognition.interimResults = false;
+                this.recognition.lang = 'en-AU';
 
                 // Initialize event listeners
                 var events = ['start', 'end', 'error'];
