@@ -3,14 +3,19 @@
     <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="bower_components/voice-elements/dist/voice-player.html">
     <link rel="import" href="bower_components/voice-elements/dist/voice-recognition.html">
+    <style>
+      p {
+        margin: 0;
+      }
+    </style>
   </head>
   <body>
     <h1>Table tennis scoring apps</h1>
     <p id="speech" ></p>
     <p id="all-speech" style="display:none;"></p>
-    <span id="blue" style="color: blue; font-size: 50vh;"></span>
-    <span id="red" style="color: red; font-size: 50vh;"></span>
-    <div><a href="#" onClick=reset()>New Game</a></div>
+    <span style="width: 50%; text-align: center; display: inline-block;"><p id="blue" style="color: blue; font-size: 70vh;"></p></span>
+    <span style="width: 49%; text-align: center; display: inline-block;"><p id="red" style="color: red; font-size: 70vh;"></p></span>
+    <div style="text-align: center;"><a href="#" onClick=reset()>New Game</a></div>
     <voice-player id="speaker" autoplay text="Welcome to the tt scoring app"></voice-player>
     <voice-recognition id="recognition-element"></voice-recognition>
 
