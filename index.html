@@ -10,11 +10,12 @@
     <p id="all-speech" style="display:none;"></p>
     <span id="blue" style="color: blue;"></span>
     <span id="red" style="color: red;"></span>
-    <voice-player autoplay text="Welcome to the tt scoring app"></voice-player>
+    <voice-player id="speaker" autoplay text="Welcome to the tt scoring app"></voice-player>
     <voice-recognition id="recognition-element"></voice-recognition>
 
 <script>
 var element = document.querySelector('#recognition-element');
+var speaker = document.querySelector('#speaker');
 var speech = document.querySelector('#speech');
 var all = document.querySelector('#all-speech');
 var blue = document.querySelector('#blue');
@@ -27,15 +28,24 @@ var reset = function() {
 }
 
 var adjustScore = function(text) {
+  var scored = false;
   if (/(sky|score) blue/i.test(text)) {
     blue.innerHTML = parseInt(blue.innerHTML) + 1;
+    scored = true;
   }
 
-  if (/(sky|score) red/i.test(text)) {
-    blue.innerHTML = parseInt(blue.innerHTML) + 1;
+  if (/((sky|score) red|skyrim)/i.test(text)) {
+    red.innerHTML = parseInt(red.innerHTML) + 1;
+    scored = true;
+  }
+
+  if (scored) {
+    speaker.setAttribute('text', 'Blue ' + blue.innerHTML + '. Red ' + red.innerHTML);
+    speaker.speak();
   }
 }
 
+// Change to use interim text and have a timeout when updating scores
 element.addEventListener('result', function(e) {
     var textContent = e.detail.result;
     var newText = textContent.replace(all.innerHTML + ' ','');
