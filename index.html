@@ -39,7 +39,7 @@ var adjustScore = function(text) {
     scored = true;
   }
 
-  if (scored) {
+  if (scored || /status/i.test(text)) {
     speaker.setAttribute('text', 'Blue ' + blue.innerHTML + '. Red ' + red.innerHTML);
     speaker.speak();
   }
@@ -59,6 +59,8 @@ element.addEventListener('error', function(e) {
     element.abort();
     setTimeout(function() {
       element.start();
+      speaker.setAttribute('text', 'I need permission to continue');
+      speaker.speak();
     },3000);
 });
 
@@ -66,6 +68,8 @@ element.addEventListener('end', function(e) {
     console.log('recording ended')
     setTimeout(function() {
       element.start();
+      speaker.setAttribute('text', 'I need permission to continue');
+      speaker.speak();
     },1000);
 });
 
