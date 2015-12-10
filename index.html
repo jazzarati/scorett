@@ -8,8 +8,9 @@
     <h1>Table tennis scoring apps</h1>
     <p id="speech" ></p>
     <p id="all-speech" style="display:none;"></p>
-    <span id="blue" style="color: blue;"></span>
-    <span id="red" style="color: red;"></span>
+    <span id="blue" style="color: blue; font-size: 50vh;"></span>
+    <span id="red" style="color: red; font-size: 50vh;"></span>
+    <div><a href="#" onClick=reset()>New Game</a></div>
     <voice-player id="speaker" autoplay text="Welcome to the tt scoring app"></voice-player>
     <voice-recognition id="recognition-element"></voice-recognition>
 
@@ -64,6 +65,7 @@ element.addEventListener('error', function(e) {
     },3000);
 });
 
+// First result after restart includes all text which will count extra points, can we clear history?
 element.addEventListener('end', function(e) {
     console.log('recording ended')
     setTimeout(function() {
