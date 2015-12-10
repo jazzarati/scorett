@@ -1,5 +1,11 @@
 <html>
   <head>
+    <script type="text/javascript">
+      var host = "jazzarati.github.io";
+      if ((host == window.location.host) && (window.location.protocol != "https:")) {
+        window.location.protocol = "https";
+      }
+    </script>
     <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
     <link rel="import" href="bower_components/voice-elements/dist/voice-player.html">
     <link rel="import" href="bower_components/voice-elements/dist/voice-recognition.html">
@@ -114,8 +120,8 @@ element.addEventListener('error', function(e) {
     element.abort();
     setTimeout(function() {
       element.start();
-      say('I need permission to continue');
-    },3000);
+      // say('I need permission to continue');
+    },2000);
 });
 
 // First result after restart includes all text which will count extra points, can we clear history?
@@ -123,7 +129,7 @@ element.addEventListener('end', function(e) {
     console.log('recording ended')
     setTimeout(function() {
       element.start();
-      say('I need permission to continue');
+      // say('I need permission to continue');
     },1000);
 });
 
