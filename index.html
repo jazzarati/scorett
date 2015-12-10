@@ -29,12 +29,12 @@ var reset = function() {
 
 var adjustScore = function(text) {
   var scored = false;
-  if (/(sky|score|school|call) (blue|glue)/i.test(text)) {
+  if (/((sky|score|school|call).*(blue|glue)|Skoolbo|scorpion)/i.test(text)) {
     blue.innerHTML = parseInt(blue.innerHTML) + 1;
     scored = true;
   }
 
-  if (/((sky|score|school|call) (red|rent)|pirate|skyrim)/i.test(text)) {
+  if (/((sky|score|school|call).*(red|rent)|pirate|skyrim)/i.test(text)) {
     red.innerHTML = parseInt(red.innerHTML) + 1;
     scored = true;
   }
@@ -56,7 +56,10 @@ element.addEventListener('result', function(e) {
 
 element.addEventListener('error', function(e) {
     console.log('recording error occurred')
-    element.start();
+    element.abort();
+    setTimeout(function() {
+      element.start();
+    },3000);
 });
 
 
