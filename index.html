@@ -7,17 +7,20 @@
   <body>
     <h1>Table tennis scoring apps</h1>
     <p id="speech" />
+    <p id="all-speech" style="display:none;"/>
     <voice-player autoplay text="Welcome to the tt scoring app"></voice-player>
     <voice-recognition id="recognition-element"></voice-recognition>
 
 <script>
 var element = document.querySelector('#recognition-element');
 var speech = document.querySelector('#speech');
+var all = document.querySelector('#all-speech');
 element.start();
 
 element.addEventListener('result', function(e) {
     var textContent = e.detail.result;
-    speech.innerHTML = textContent.replace(speech.innerHTML + ' ','');
+    speech.innerHTML = textContent.replace(all.innerHTML + ' ','');
+    all.innerHTML = e.detail.result;
 });
 </script>
   </body>
