@@ -39,7 +39,7 @@ var adjustScore = function(text) {
     scored = true;
   }
 
-  if (scored || /status/i.test(text)) {
+  if (scored || /(status|what.*score)/i.test(text)) {
     speaker.setAttribute('text', 'Blue ' + blue.innerHTML + '. Red ' + red.innerHTML);
     speaker.speak();
   }
