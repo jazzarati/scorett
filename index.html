@@ -6,6 +6,20 @@
   </head>
   <body>
     <h1>Table tennis scoring apps</h1>
+    <p id="speech" />
     <voice-player autoplay text="Welcome to the tt scoring app"></voice-player>
+    <voice-recognition id="recognition-element"></voice-recognition>
+
+<script>
+var element = document.querySelector('#recognition-element');
+var speech = document.querySelector('#speech');
+element.start();
+
+element.addEventListener('result', function(e) {
+    var textContent = e.detail.result;
+    alert(textContent);
+    speech.innerHTML = textContent;
+});
+</script>
   </body>
 </html>
