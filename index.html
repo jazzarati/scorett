@@ -13,8 +13,14 @@
     <h1>Table tennis scoring apps</h1>
     <p id="speech" ></p>
     <p id="all-speech" style="display:none;"></p>
-    <span style="width: 50%; text-align: center; display: inline-block;"><p id="blue" style="color: blue; font-size: 70vh;"></p></span>
-    <span style="width: 49%; text-align: center; display: inline-block;"><p id="red" style="color: red; font-size: 70vh;"></p></span>
+    <span style="width: 50%; text-align: center; display: inline-block;">
+      <p id="blue" style="color: blue; font-size: 70vh;"></p><br />
+      <a href="#" onclick=minus('blue')>-</a>
+    </span>
+    <span style="width: 49%; text-align: center; display: inline-block;">
+      <p id="red" style="color: red; font-size: 70vh;"></p><br />
+      <a href="#" onclick=minus('red')>-</a>
+    </span>
     <div style="text-align: center;"><a href="#" onClick=reset()>New Game</a></div>
     <voice-player id="speaker" autoplay text="Welcome to the tt scoring app"></voice-player>
     <voice-recognition id="recognition-element"></voice-recognition>
@@ -31,6 +37,16 @@ element.start();
 var reset = function() {
   blue.innerHTML = '0';
   red.innerHTML = '0';
+}
+
+var minus = function(color) {
+  var ele;
+  if (color == 'blue') {
+    ele = blue;
+  } else {
+    ele = red;
+  }
+  ele.innerHTML = parseInt(ele.innerHTML) - 1;
 }
 
 var adjustScore = function(text) {
