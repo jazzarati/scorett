@@ -13,7 +13,6 @@
     </style>
   </head>
   <body>
-    <h1>Table tennis scoring apps</h1>
     <p id="speech" ></p>
     <p id="all-speech" style="display:none;"></p>
     <span style="width: 50%; text-align: center; display: inline-block;">
@@ -91,9 +90,8 @@ var adjustScore = function(text) {
 
   if (scored || /(status|what.*score)/i.test(text)) {
     say('Blue ' + blue.innerHTML + '. Red ' + red.innerHTML);
+    checkForWinner();
   }
-
-  checkForWinner();
 }
 
 var say = function(text) {
