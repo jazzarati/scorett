@@ -17,10 +17,7 @@ element.start();
 
 element.addEventListener('result', function(e) {
     var textContent = e.detail.result;
-    alert(textContent);
-    speech.innerHTML = textContent;
-    element.stop();
-    element.start();
+    speech.innerHTML = textContent.replace(speech.innerHTML + ' ','');
 });
 </script>
   </body>
