@@ -13,8 +13,6 @@
     </style>
   </head>
   <body>
-    <p id="speech" ></p>
-    <p id="all-speech" style="display:none;"></p>
     <span style="width: 50%; text-align: center; display: inline-block;">
       <a href="#" onclick=add('blue')><p id="blue" style="color: blue; font-size: 70vh;"></p></a><br />
       <a href="#" onclick=minus('blue')>-</a>
@@ -26,6 +24,8 @@
     <div style="text-align: center;"><a href="#" onClick=reset()>New Game</a></div>
     <voice-player id="speaker" autoplay text="Welcome to the tt scoring app"></voice-player>
     <voice-recognition id="recognition-element"></voice-recognition>
+    <p id="speech" ></p>
+    <p id="all-speech" style="display:none;"></p>
 
 <script>
 var element = document.querySelector('#recognition-element');
