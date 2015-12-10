@@ -34,7 +34,7 @@ var adjustScore = function(text) {
     scored = true;
   }
 
-  if (/((sky|score|school|call).*(red|rent)|pirate|skyrim)/i.test(text)) {
+  if (/((sky|score|school|call).*(red|rent)|pirate|skyrim|torrent|torrid)/i.test(text)) {
     red.innerHTML = parseInt(red.innerHTML) + 1;
     scored = true;
   }
@@ -62,10 +62,14 @@ element.addEventListener('error', function(e) {
     },3000);
 });
 
+element.addEventListener('end', function(e) {
+    console.log('recording ended')
+    setTimeout(function() {
+      element.start();
+    },1000);
+});
 
 reset();
-adjustScore('score blue');
-adjustScore('score red');
 </script>
   </body>
 </html>
