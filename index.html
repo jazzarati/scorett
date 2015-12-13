@@ -28,23 +28,45 @@
       <a href="#" onclick=add('red')><p id="red" style="color: red; font-size: 70vh;"></p></a><br />
       <a href="#" onclick=minus('red') style="font-weight: bold;">-</a>
     </span>
-    <voice-player id="speaker" autoplay text="Welcome to the tt scoring app"></voice-player>
+    <voice-player id="speaker" autoplay text=""></voice-player>
     <voice-recognition id="recognition-element"></voice-recognition>
+    <p>Full</p>
     <p id="speech" ></p>
+    <p>Temp</p>
+    <p id="temp-speech" ></p>
     <p id="all-speech" style="display:none;"></p>
+    <p id="all-temp-speech" style="display:none;"></p>
 
 <script>
-var element = document.querySelector('#recognition-element');
+var receiver = document.querySelector('#recognition-element');
 var speaker = document.querySelector('#speaker');
 var speech = document.querySelector('#speech');
+var tempSpeech = document.querySelector('#temp-speech');
 var all = document.querySelector('#all-speech');
+var allTemp = document.querySelector('#all-temp-speech');
 var blue = document.querySelector('#blue');
 var red = document.querySelector('#red')
-element.start();
+receiver.start();
+
+var momentaryPause = function(timeoutLength) {
+  var timeout = timeoutLength || 1000;
+  receiver.setAttribute('paused', 'true');
+  receiver.abort();
+  setTimeout(function() {
+    receiver.removeAttribute('paused');
+    receiver.start();
+  }, timeout);
+}
+
+var explainCommands = function() {
+  momentaryPause(6000);
+  say('Available commands are: "Reset the score", "Score blue", "Score red" and "What is the score?"')
+}
 
 var reset = function() {
   blue.innerHTML = '0';
   red.innerHTML = '0';
+  say('Starting new game');
 }
 
 var add = function(color) {
@@ -86,18 +108,35 @@ var checkScores = function() {
 
 var adjustScore = function(text) {
   var scored = false;
+  var commandMatch = false;
   if (/((sky|score|school|call).*(blue|glue)|Skoolbo|scorpion)/i.test(text)) {
     blue.innerHTML = parseInt(blue.innerHTML) + 1;
     scored = true;
+    commandMatch = true;
   }
 
   if (/((sky|score|school|call).*(red|rent)|pirate|skyrim|torrent|torrid)/i.test(text)) {
     red.innerHTML = parseInt(red.innerHTML) + 1;
     scored = true;
+    commandMatch = true;
   }
 
-  if (scored || /(status|what.*score)/i.test(text)) {
+  if (scored || /(status|what.*(score|store))/i.test(text)) {
     checkScores();
+    commandMatch = true;
+  }
+
+  if (/(reserve|reset).*(score|store)/i.test(text)) {
+    reset();
+    commandMatch = true;
+  }
+
+  if (/(what.*command|help)/i.test(text)) {
+    explainCommands();
+  }
+
+  if (commandMatch) {
+    momentaryPause();
   }
 }
 
@@ -106,33 +145,40 @@ var say = function(text) {
   speaker.speak();
 }
 
-// Change to use interim text and have a timeout when updating scores
-element.addEventListener('result', function(e) {
-    console.log(e.detail);
-    console.log(e.detail.interimResult);
-    var textContent = e.detail.result;
-    var newText = textContent.replace(all.innerHTML + ' ','');
-    speech.innerHTML = newText;
-    adjustScore(newText);
-    all.innerHTML = e.detail.result;
+receiver.addEventListener('result', function(e) {
+    if(e.detail.interimResult !== undefined) {
+      var textContent = e.detail.interimResult;
+      var newText = textContent.replace(allTemp.innerHTML + ' ','');
+      tempSpeech.innerHTML = newText;
+      adjustScore(newText);
+      allTemp.innerHTML = e.detail.interimResult;
+    } else {
+      // Not used, taking all results from interim results for faster response times
+      var textContent = e.detail.result;
+      var newText = textContent.replace(all.innerHTML + ' ','');
+      speech.innerHTML = newText;
+      all.innerHTML = e.detail.result;
+    }
 });
 
-element.addEventListener('error', function(e) {
+receiver.addEventListener('error', function(e) {
     console.log('recording error occurred')
-    element.abort();
-    setTimeout(function() {
-      element.start();
-      // say('I need permission to continue');
-    },2000);
+    receiver.abort();
+    // -- Abort triggers end which will restart
+    // setTimeout(function() {
+    //   receiver.start();
+    //   // say('I need permission to continue');
+    // },2000);
 });
 
 // First result after restart includes all text which will count extra points, can we clear history?
-element.addEventListener('end', function(e) {
+receiver.addEventListener('end', function(e) {
     console.log('recording ended')
-    setTimeout(function() {
-      element.start();
-      // say('I need permission to continue');
-    },1000);
+    if(receiver.getAttribute('paused') !== 'true') {
+      setTimeout(function() {
+        receiver.start();
+      },1000);
+    }
 });
 
 reset();
