@@ -108,6 +108,8 @@ var say = function(text) {
 
 // Change to use interim text and have a timeout when updating scores
 element.addEventListener('result', function(e) {
+    console.log(e.detail);
+    console.log(e.detail.interimResult);
     var textContent = e.detail.result;
     var newText = textContent.replace(all.innerHTML + ' ','');
     speech.innerHTML = newText;

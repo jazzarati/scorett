@@ -56,8 +56,13 @@
 
                 this.recognition.addEventListener('result', function(e) {
                     for (var i = e.resultIndex; i < e.results.length; ++i) {
-                        that.text += e.results[i][0].transcript;
-                        e.result = that.text;
+                        if (event.results[i].isFinal) {
+                            that.text += e.results[i][0].transcript;
+                            e.result = that.text;
+                        } else {
+                            that.text += e.results[i][0].transcript;
+                            e.interimResult = that.text;
+                        }
                     }
 
                     that.fire('result', e);
